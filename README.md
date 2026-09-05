@@ -9,7 +9,7 @@ Lokta helps a borrower answer four questions before accepting a loan:
 3. What interest rate should I negotiate for?
 4. What EMI should I agree to?
 
-It then produces a one-screen Negotiation Card that the borrower can use when comparing lender offers.
+It then produces a one-screen **Negotiation Card** that the borrower can use when comparing lender offers.
 
 ---
 
@@ -31,9 +31,9 @@ The borrower-safe number is the primary number used for negotiation.
 
 ## What the App Does
 
-### Borrowing decision
+### Borrowing Decision
 
-The app returns:
+The app returns one of three outcomes:
 
 - **Borrow**
 - **Borrow less**
@@ -41,7 +41,7 @@ The app returns:
 
 Every decision includes an explanation.
 
-### Borrower-safe amount
+### Borrower-Safe Amount
 
 The estimate considers:
 
@@ -54,13 +54,15 @@ The estimate considers:
 
 The calculation uses prototype FOIR-style affordability guardrails and a residual-income check.
 
-### Illustrative lender capacity
+### Illustrative Lender Capacity
 
 A separate lender-side capacity is shown.
 
 It is **not** a lender approval prediction or guaranteed sanction amount.
 
-### Interest-rate range
+It is intended only as a comparison point between what a simplified lender-side model might consider and what the borrower can comfortably carry.
+
+### Interest-Rate Range
 
 The app provides an **illustrative nominal annual interest-rate range**.
 
@@ -73,7 +75,7 @@ The range changes based on:
 
 It is **not a lender quote and not a calculated APR**.
 
-### EMI ceiling
+### EMI Ceiling
 
 The app gives an EMI ceiling and compares:
 
@@ -81,13 +83,18 @@ The app gives an EMI ceiling and compares:
 - 48 months
 - 60 months
 
-This makes the tenure trade-off visible.
+This makes the tenure trade-off visible:
 
-### Stress test
+- shorter tenure → higher EMI, lower total interest
+- longer tenure → lower EMI, higher total interest
+
+### Stress Test
 
 The app shows a **20% higher EMI scenario** to illustrate additional repayment pressure.
 
-### Cost check
+This is intended as a simple affordability stress signal rather than a prediction of future income or interest-rate changes.
+
+### Cost Check
 
 The app estimates total repayment cost using:
 
@@ -98,7 +105,7 @@ The app estimates total repayment cost using:
 
 The processing fee is shown separately.
 
-This is a prototype cost estimate, not a lender quotation or regulatory APR calculation.
+This is a prototype cost estimate, **not a lender quotation or regulatory APR calculation**.
 
 ### Negotiation Card
 
@@ -110,13 +117,17 @@ The final screen provides:
 - suggested lender negotiation sentence
 - next-step guidance
 
+The goal is to give the borrower a concise reference point when comparing loan offers.
+
 ---
 
 ## Adaptive Questions
 
 The questionnaire changes depending on income type.
 
-### Salaried borrower
+The design aims to collect roughly 8–10 high-value questions rather than asking every borrower the same long form.
+
+### Salaried Borrower
 
 The app asks about:
 
@@ -129,7 +140,7 @@ The app asks about:
 - credit score, when known
 - age
 
-### Self-employed borrower
+### Self-Employed Borrower
 
 The app additionally asks for:
 
@@ -137,7 +148,7 @@ The app additionally asks for:
 
 This helps distinguish business/cash income from income supported by documentation.
 
-### Variable / informal borrower
+### Variable / Informal Borrower
 
 The app asks about:
 
@@ -161,6 +172,8 @@ Examples:
 - missing documentation does not become documented income
 - missing optional information reduces confidence where appropriate
 
+This is important because the prototype should not manufacture certainty from missing information.
+
 ---
 
 ## Safety Behaviour
@@ -176,6 +189,8 @@ A variable/informal borrower with expensive debt, existing EMI pressure and a re
 - guidance toward restructuring, refinancing or reducing existing expensive debt
 
 The prototype does not optimise only for the largest possible loan.
+
+The purpose is borrower decision support rather than maximising loan eligibility.
 
 ---
 
@@ -195,6 +210,8 @@ The prototype does not optimise only for the largest possible loan.
 Expected behaviour:
 
 **Borrow**
+
+Priya represents a relatively stable salaried borrower with strong documented repayment signals and a manageable requested amount.
 
 ---
 
@@ -251,7 +268,7 @@ The repayment-stress signals trigger the new-borrowing safety override.
 
 ## Core Decision Logic
 
-### Borrower-safe amount
+### Borrower-Safe Amount
 
 The calculation considers:
 
@@ -265,7 +282,9 @@ The calculation considers:
 
 The safe amount uses the upper end of the applicable illustrative rate band over a 48-month reference tenure.
 
-### Illustrative lender capacity
+This deliberately avoids assuming the borrower will receive the cheapest rate.
+
+### Illustrative Lender Capacity
 
 The lender-side calculation uses:
 
@@ -275,13 +294,33 @@ The lender-side calculation uses:
 
 An additional prototype cap is applied for informal income.
 
-This is not a guaranteed sanction amount.
+This is **not a guaranteed sanction amount**.
 
-### Requested amount
+### Requested Amount
 
 The requested amount is compared with borrower-safe capacity.
 
 Additional repayment-stress safeguards can override the normal result.
+
+The decision is therefore based on borrower affordability first rather than simply asking whether a lender could theoretically lend the requested amount.
+
+---
+
+## Rate and Fee Transparency
+
+The prototype separates:
+
+- nominal interest-rate range
+- processing fee
+- estimated total repayment cost
+
+The displayed rate range is intentionally labelled as a **nominal annual interest-rate range**, not APR.
+
+The prototype currently uses a **2% processing-fee assumption** for cost illustration.
+
+Because this is not connected to a specific lender's complete fee schedule, taxes, insurance, documentation charges, late fees, or other possible charges are not modelled.
+
+Therefore the cost check should be treated as a comparison aid rather than a regulatory APR calculation.
 
 ---
 
@@ -318,10 +357,14 @@ There is no backend.
 
 ### Requirements
 
+Install:
+
 - Node.js
 - npm
 
-### Install dependencies
+### Install Dependencies
+
+From the project directory:
 
 ```bash
 npm install
