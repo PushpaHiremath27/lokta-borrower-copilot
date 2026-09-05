@@ -361,4 +361,159 @@ There is no backend.
 ### Install dependencies
 
 ```bash
+npm install0
+- Household costs used in the test: ₹28,000
+- Credit score: 780
+- Requested amount: ₹8,00,000
+- Purpose: Wedding
+
+Expected product behaviour:
+
+**Borrow**
+
+Priya has stable salaried income and a strong known credit score, while the requested amount is close to and within the prototype's borrower-safe affordability range.
+
+---
+
+### Ravi
+
+- Age: 42
+- Income type: Self-employed
+- Cash income: ₹40,000–80,000/month
+- ITR income: ₹4,20,000/year
+- Requested amount: ₹15,00,000
+- Purpose: Business / stock line + delivery vehicle
+- No formal borrowing history / no known credit score
+- Owns an unencumbered shop premises
+
+Test assumptions:
+
+- Typical monthly income used: ₹80,000
+- Documented monthly income used: ₹35,000
+- Household costs used for the test: ₹30,000
+
+Expected product behaviour:
+
+**Don't borrow at the requested amount**
+
+The app uses documented income conservatively for affordability.
+
+Because the requested business requirement is large, the product also routes Ravi toward comparing secured business finance rather than relying only on an expensive unsecured personal loan.
+
+The household-cost figure is a test assumption because the challenge brief does not provide Ravi's exact household-expense amount.
+
+---
+
+### Anita
+
+- Age: 35
+- Income type: Variable / informal
+- Income: ₹26,000–30,000/month
+- Existing high-cost app loans: 3
+- High-cost outstanding debt: ₹35,000
+- Existing debt rate: 30%+
+- Recent EMI bounce: Yes
+- Requested amount: ₹1,50,000
+- Purpose: Electric scooter
+
+Test assumptions:
+
+- Dependable monthly income used: ₹26,000
+- Existing EMI used: ₹10,000
+- Household costs used for the test: ₹15,000
+
+Expected product behaviour:
+
+**Don't borrow**
+
+The repayment-stress signals trigger the new-borrowing safety override.
+
+The Negotiation Card recommends:
+
+**Do not borrow**
+
+It instead suggests considering restructuring, refinancing or repayment of existing expensive debt before taking on another loan.
+
+The household-cost figure is a test assumption because the challenge brief does not provide Anita's exact household-expense amount.
+
+---
+
+## Core Decision Logic
+
+The prototype separates three important numbers:
+
+### Borrower-safe amount
+
+This is calculated from the borrower's affordability information.
+
+The calculation considers:
+
+- income
+- borrower-type FOIR
+- existing EMI
+- household expenses
+- income stability
+- high-cost debt and repayment stress
+
+The safe amount is calculated using the upper end of the applicable illustrative rate band over a 48-month reference tenure.
+
+This intentionally makes the borrower-safe amount more conservative.
+
+### Illustrative lender capacity
+
+This uses a separate, somewhat more permissive FOIR-style calculation.
+
+It uses the lower end of the applicable illustrative rate band and a 60-month reference tenure.
+
+For informal income, an additional prototype cap is applied.
+
+This number is labelled as **illustrative lender capacity**, not guaranteed sanction.
+
+### Requested amount
+
+This is simply the amount entered by the borrower.
+
+The decision compares the requested amount with the borrower-safe amount and applies additional repayment-stress safeguards.
+
+---
+
+## Privacy
+
+The prototype does not require:
+
+- login
+- bank-account access
+- credit-bureau access
+- document upload
+- backend storage
+
+The calculations run locally in the browser.
+
+No personal borrower profile is persisted by the prototype.
+
+---
+
+## Technology
+
+Built with:
+
+- React
+- Vite
+- JavaScript
+- CSS
+
+There is no backend.
+
+---
+
+## Running Locally
+
+### Requirements
+
+- Node.js
+- npm
+
+### Install dependencies
+
+```bash
 npm install
