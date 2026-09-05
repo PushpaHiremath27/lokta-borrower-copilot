@@ -31,21 +31,19 @@ The borrower-safe number is the primary number used for negotiation.
 
 ## What the App Does
 
-### 1. Borrowing decision
+### Borrowing decision
 
-The app returns one of:
+The app returns:
 
 - **Borrow**
 - **Borrow less**
 - **Don't borrow**
 
-Every decision includes a short explanation.
+Every decision includes an explanation.
 
-The prototype is deliberately allowed to recommend **Don't borrow** when the affordability or repayment-stress signals are too severe.
+### Borrower-safe amount
 
-### 2. Borrower-safe amount
-
-The app estimates a maximum borrowing amount based on:
+The estimate considers:
 
 - monthly income
 - income type
@@ -56,81 +54,67 @@ The app estimates a maximum borrowing amount based on:
 
 The calculation uses prototype FOIR-style affordability guardrails and a residual-income check.
 
-### 3. Illustrative lender capacity
+### Illustrative lender capacity
 
-The app also provides an illustrative lender-side capacity.
+A separate lender-side capacity is shown.
 
-This is intentionally shown separately from the borrower-safe amount.
+It is **not** a lender approval prediction or guaranteed sanction amount.
 
-It is not a lender approval prediction and should not be interpreted as a guaranteed sanction amount.
+### Interest-rate range
 
-### 4. Interest-rate range
+The app provides an **illustrative nominal annual interest-rate range**.
 
-The app provides an **illustrative interest-rate range** rather than a single rate.
-
-The range can change based on:
+The range changes based on:
 
 - income type
 - credit score
 - existing high-cost debt
-- recent repayment stress
-
-The displayed rate is a prototype nominal annual interest-rate range.
+- repayment stress
 
 It is **not a lender quote and not a calculated APR**.
 
-### 5. EMI ceiling
+### EMI ceiling
 
-The app gives the borrower a monthly EMI ceiling.
+The app gives an EMI ceiling and compares:
 
-It also shows:
-
-- 36-month EMI
-- 48-month EMI
-- 60-month EMI
+- 36 months
+- 48 months
+- 60 months
 
 This makes the tenure trade-off visible.
 
-A longer tenure generally reduces monthly EMI but increases the overall repayment period and can increase total interest paid.
+### Stress test
 
-### 6. Stress test
+The app shows a **20% higher EMI scenario** to illustrate additional repayment pressure.
 
-The app shows a 20% higher EMI scenario.
-
-This gives the borrower a simple view of what repayment could look like under additional monthly pressure.
-
-### 7. Cost check
+### Cost check
 
 The app estimates total repayment cost using:
 
-- the requested principal
-- the upper end of the illustrative rate range
-- the reference 48-month tenure
-- a prototype 2% processing-fee assumption
+- requested principal
+- upper end of the illustrative rate range
+- 48-month reference tenure
+- prototype 2% processing fee
 
-The processing fee is shown separately so that the borrower does not compare loans using interest rate alone.
+The processing fee is shown separately.
 
 This is a prototype cost estimate, not a lender quotation or regulatory APR calculation.
 
-### 8. Negotiation Card
+### Negotiation Card
 
-The final screen gives the borrower:
+The final screen provides:
 
 - recommended amount
 - EMI ceiling
 - target interest-rate range
-- a suggested sentence to use with a lender
+- suggested lender negotiation sentence
 - next-step guidance
-
-The card is designed to be useful while comparing or negotiating loan offers.
 
 ---
 
 ## Adaptive Questions
 
-The questionnaire changes depending on the borrower's income type.
-
-The goal is to collect enough information to make the decision useful without requiring login, bureau access, or personal-data storage.
+The questionnaire changes depending on income type.
 
 ### Salaried borrower
 
@@ -151,17 +135,17 @@ The app additionally asks for:
 
 - documented monthly income
 
-This helps distinguish reported business/cash income from income that can be supported by documentation.
+This helps distinguish business/cash income from income supported by documentation.
 
 ### Variable / informal borrower
 
-The app additionally asks about:
+The app asks about:
 
 - expensive existing debt
 - recent bounced EMI
 - income stability
 
-If expensive debt is present, the bounced-EMI question is asked conditionally.
+The bounced-EMI question is conditional on expensive debt being present.
 
 These questions help identify debt-stacking and repayment-stress situations.
 
@@ -171,35 +155,31 @@ These questions help identify debt-stacking and repayment-stress situations.
 
 Unknown information is not automatically treated as a positive signal.
 
-For example:
+Examples:
 
 - unknown credit score does not become a high score
 - missing documentation does not become documented income
 - missing optional information reduces confidence where appropriate
 
-This is important because a borrower should not receive a falsely precise recommendation simply because information was not provided.
-
 ---
 
 ## Safety Behaviour
 
-The app is deliberately allowed to recommend **Don't borrow**.
+The prototype is deliberately allowed to recommend **Don't borrow**.
 
-For example, a variable/informal borrower with expensive outstanding debt, an existing EMI burden and a recent bounced EMI can receive:
+A variable/informal borrower with expensive debt, existing EMI pressure and a recent bounced EMI can receive:
 
 - **Don't borrow**
 - **₹0 recommended new borrowing**
 - **₹0 new EMI ceiling**
 - no recommended new rate
-- a next step focused on restructuring, refinancing or reducing existing expensive debt
+- guidance toward restructuring, refinancing or reducing existing expensive debt
 
-The prototype therefore does not optimise only for the largest possible loan.
+The prototype does not optimise only for the largest possible loan.
 
 ---
 
 ## Three Test Borrowers
-
-The prototype was tested against the three borrowers supplied in the challenge.
 
 ### Priya
 
@@ -207,16 +187,14 @@ The prototype was tested against the three borrowers supplied in the challenge.
 - Income type: Salaried
 - Net income: ₹1,10,000/month
 - Existing EMI: ₹14,000
-- Household costs used in the test: ₹28,000
+- Household costs used: ₹28,000
 - Credit score: 780
 - Requested amount: ₹8,00,000
 - Purpose: Wedding
 
-Expected product behaviour:
+Expected behaviour:
 
 **Borrow**
-
-Priya has stable salaried income and a strong known credit score, while the requested amount is close to and within the prototype's borrower-safe affordability range.
 
 ---
 
@@ -233,19 +211,15 @@ Priya has stable salaried income and a strong known credit score, while the requ
 
 Test assumptions:
 
-- Typical monthly income used: ₹80,000
-- Documented monthly income used: ₹35,000
-- Household costs used for the test: ₹30,000
+- Typical monthly income: ₹80,000
+- Documented monthly income: ₹35,000
+- Household costs: ₹30,000
 
-Expected product behaviour:
+Expected behaviour:
 
 **Don't borrow at the requested amount**
 
-The app uses documented income conservatively for affordability.
-
-Because the requested business requirement is large, the product also routes Ravi toward comparing secured business finance rather than relying only on an expensive unsecured personal loan.
-
-The household-cost figure is a test assumption because the challenge brief does not provide Ravi's exact household-expense amount.
+The app uses documented income conservatively and routes the large business requirement toward comparing secured business finance.
 
 ---
 
@@ -263,33 +237,21 @@ The household-cost figure is a test assumption because the challenge brief does 
 
 Test assumptions:
 
-- Dependable monthly income used: ₹26,000
-- Existing EMI used: ₹10,000
-- Household costs used for the test: ₹15,000
+- Dependable monthly income: ₹26,000
+- Existing EMI: ₹10,000
+- Household costs: ₹15,000
 
-Expected product behaviour:
+Expected behaviour:
 
 **Don't borrow**
 
 The repayment-stress signals trigger the new-borrowing safety override.
 
-The Negotiation Card recommends:
-
-**Do not borrow**
-
-It instead suggests considering restructuring, refinancing or repayment of existing expensive debt before taking on another loan.
-
-The household-cost figure is a test assumption because the challenge brief does not provide Anita's exact household-expense amount.
-
 ---
 
 ## Core Decision Logic
 
-The prototype separates three important numbers:
-
 ### Borrower-safe amount
-
-This is calculated from the borrower's affordability information.
 
 The calculation considers:
 
@@ -298,27 +260,28 @@ The calculation considers:
 - existing EMI
 - household expenses
 - income stability
-- high-cost debt and repayment stress
+- high-cost debt
+- repayment stress
 
-The safe amount is calculated using the upper end of the applicable illustrative rate band over a 48-month reference tenure.
-
-This intentionally makes the borrower-safe amount more conservative.
+The safe amount uses the upper end of the applicable illustrative rate band over a 48-month reference tenure.
 
 ### Illustrative lender capacity
 
-This uses a separate, somewhat more permissive FOIR-style calculation.
+The lender-side calculation uses:
 
-It uses the lower end of the applicable illustrative rate band and a 60-month reference tenure.
+- lender FOIR
+- lower end of the illustrative rate band
+- 60-month reference tenure
 
-For informal income, an additional prototype cap is applied.
+An additional prototype cap is applied for informal income.
 
-This number is labelled as **illustrative lender capacity**, not guaranteed sanction.
+This is not a guaranteed sanction amount.
 
 ### Requested amount
 
-This is simply the amount entered by the borrower.
+The requested amount is compared with borrower-safe capacity.
 
-The decision compares the requested amount with the borrower-safe amount and applies additional repayment-stress safeguards.
+Additional repayment-stress safeguards can override the normal result.
 
 ---
 
@@ -332,164 +295,9 @@ The prototype does not require:
 - document upload
 - backend storage
 
-The calculations run locally in the browser.
+Calculations run locally in the browser.
 
-No personal borrower profile is persisted by the prototype.
-
----
-
-## Technology
-
-Built with:
-
-- React
-- Vite
-- JavaScript
-- CSS
-
-There is no backend.
-
----
-
-## Running Locally
-
-### Requirements
-
-- Node.js
-- npm
-
-### Install dependencies
-
-```bash
-npm install0
-- Household costs used in the test: ₹28,000
-- Credit score: 780
-- Requested amount: ₹8,00,000
-- Purpose: Wedding
-
-Expected product behaviour:
-
-**Borrow**
-
-Priya has stable salaried income and a strong known credit score, while the requested amount is close to and within the prototype's borrower-safe affordability range.
-
----
-
-### Ravi
-
-- Age: 42
-- Income type: Self-employed
-- Cash income: ₹40,000–80,000/month
-- ITR income: ₹4,20,000/year
-- Requested amount: ₹15,00,000
-- Purpose: Business / stock line + delivery vehicle
-- No formal borrowing history / no known credit score
-- Owns an unencumbered shop premises
-
-Test assumptions:
-
-- Typical monthly income used: ₹80,000
-- Documented monthly income used: ₹35,000
-- Household costs used for the test: ₹30,000
-
-Expected product behaviour:
-
-**Don't borrow at the requested amount**
-
-The app uses documented income conservatively for affordability.
-
-Because the requested business requirement is large, the product also routes Ravi toward comparing secured business finance rather than relying only on an expensive unsecured personal loan.
-
-The household-cost figure is a test assumption because the challenge brief does not provide Ravi's exact household-expense amount.
-
----
-
-### Anita
-
-- Age: 35
-- Income type: Variable / informal
-- Income: ₹26,000–30,000/month
-- Existing high-cost app loans: 3
-- High-cost outstanding debt: ₹35,000
-- Existing debt rate: 30%+
-- Recent EMI bounce: Yes
-- Requested amount: ₹1,50,000
-- Purpose: Electric scooter
-
-Test assumptions:
-
-- Dependable monthly income used: ₹26,000
-- Existing EMI used: ₹10,000
-- Household costs used for the test: ₹15,000
-
-Expected product behaviour:
-
-**Don't borrow**
-
-The repayment-stress signals trigger the new-borrowing safety override.
-
-The Negotiation Card recommends:
-
-**Do not borrow**
-
-It instead suggests considering restructuring, refinancing or repayment of existing expensive debt before taking on another loan.
-
-The household-cost figure is a test assumption because the challenge brief does not provide Anita's exact household-expense amount.
-
----
-
-## Core Decision Logic
-
-The prototype separates three important numbers:
-
-### Borrower-safe amount
-
-This is calculated from the borrower's affordability information.
-
-The calculation considers:
-
-- income
-- borrower-type FOIR
-- existing EMI
-- household expenses
-- income stability
-- high-cost debt and repayment stress
-
-The safe amount is calculated using the upper end of the applicable illustrative rate band over a 48-month reference tenure.
-
-This intentionally makes the borrower-safe amount more conservative.
-
-### Illustrative lender capacity
-
-This uses a separate, somewhat more permissive FOIR-style calculation.
-
-It uses the lower end of the applicable illustrative rate band and a 60-month reference tenure.
-
-For informal income, an additional prototype cap is applied.
-
-This number is labelled as **illustrative lender capacity**, not guaranteed sanction.
-
-### Requested amount
-
-This is simply the amount entered by the borrower.
-
-The decision compares the requested amount with the borrower-safe amount and applies additional repayment-stress safeguards.
-
----
-
-## Privacy
-
-The prototype does not require:
-
-- login
-- bank-account access
-- credit-bureau access
-- document upload
-- backend storage
-
-The calculations run locally in the browser.
-
-No personal borrower profile is persisted by the prototype.
+No personal borrower profile is persisted.
 
 ---
 
